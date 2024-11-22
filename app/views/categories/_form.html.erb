@@ -1,0 +1,13 @@
+  <!--Display Error message for category-->
+  <% if @category.errors[:name].present? %>
+    <div class="error-message text-danger">
+      <%= @category.errors[:name].first %>
+    </div>
+  <% end %>
+
+<div class="mb-3">
+  <%= form.label :name %>
+  <%= form.text_field :name %>
+</div>
+
+<%= form.submit @category.persisted? ? "Update Category" : "Create Category"  %> 

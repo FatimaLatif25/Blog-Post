@@ -1,0 +1,62 @@
+<h1>All Posts</h1>
+
+<div>
+  <%= link_to 'All Catgories', categories_path %>
+</div>
+<div>
+  <%= link_to 'New Post', new_post_path %>
+</div>
+
+<div>
+  <%= link_to 'User Profile', profile_path %>
+</div>
+
+
+<%= form_with url: posts_path, method: :get, local: true do %>
+  <div>
+    <%= label_tag :category_id, "Filter by Category" %>
+    <%= select_tag :category_id, options_from_collection_for_select(Category.all, :id, :name), prompt: "Select a Category" %>
+  </div>
+  <%= submit_tag "Filter" %>
+<% end %>
+ 
+<ul>
+    <% @posts.each do |post| %>
+      <% cache("all_posts_#{@posts.maximum(:updated_at).to_i}") do %>
+        <li style="margin-bottom: 20px;">
+
+          <div>
+            <strong>User:</strong>
+            <%= post.user.present? ? post.user.username : "Unknown" %>
+          </div>
+
+          <div>
+            <strong>Title:</strong>
+            <%= link_to post.title, post_path(post) %>
+          </div>
+
+          <div>
+            <strong>Content:</strong>
+            <%= truncate(post.content, length: 100) %>
+          </div>
+
+          <div>
+            <strong>Category:</strong>
+            <%= post.category.present? ? post.category.name : 'No category' %>
+          </div>
+          
+          <div>
+            <% if post.image.attached? %>
+                <%= image_tag url_for(post.image) %>
+            <% else %>
+                <p>No Image attached</p>
+            <% end %>
+          </div> 
+
+          <%= link_to 'Edit', edit_post_path(post) %>
+          <%= link_to 'Show', post_path(post) %>
+          <%= button_to 'Delete', post_path(post), method: :delete %>
+        </li>
+      <% end %>
+    <% end %>  
+  </ul>

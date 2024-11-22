@@ -1,0 +1,21 @@
+<div>
+  <%= form.label :title %>
+  <%= form.text_field :title %>
+</div>
+
+<div>
+  <%= form.label :content %>
+  <%= form.text_field :content %>
+</div>
+
+<div>
+  <%= form.label :image %>
+  <%= form.file_field :image %>
+</div>
+
+<div>
+  <%= form.label :category_id, "Category" %>
+  <%= form.select :category_id, options_from_collection_for_select(Category.all, :id, :name), prompt: "Select a Category" %>
+</div>
+
+<%= form.submit @post.persisted? ? 'Update Post' : 'Create Post' %>

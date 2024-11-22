@@ -1,0 +1,47 @@
+<h1>Show Post</h1>
+<%= cache "#{@post.id}_with_comments" do %>
+<div>
+  
+    <div>
+      <strong>Post Title:</strong> 
+      <%= @post.title %>
+    </div>
+
+    <div>
+      <strong>Post Content:</strong> 
+      <%= @post.content %>
+    </div>
+
+    <div>
+      <strong>Post Category:</strong> 
+      <%= @post.category.present? ? @post.category.name : "No Category" %>
+    </div>
+
+    <div>
+      <% if @post.image.attached? %>
+        <%= image_tag url_for(@post.image) %>
+      <% else %>
+        <p>No Image attached</p>
+      <% end %>
+    </div>
+
+   
+    
+      <h3>Comments</h3>
+      <div id="comments">
+        <%= render @post.comments %>
+      </div>
+    
+      <%= form_with(model: [@post, Comment.new], remote: true) do |form| %>
+        <div class="field">
+          <%= form.label :content %>
+          <%= form.text_area :content %>
+        </div>
+        <div>
+          <%= form.submit "Add Comment" %>
+        </div>
+      <% end %>
+    </div>
+  <% end %>
+</div>
+

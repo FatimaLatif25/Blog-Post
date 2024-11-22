@@ -1,0 +1,32 @@
+<h1>User Profile</h1>
+
+<h2>Posts by <%= current_user.username %>:</h2>
+<div>
+  <%= link_to 'New Post', new_post_path(from_profile: true) %>
+</div>
+<% if @posts.any? %>
+  <ul>
+    <% @posts.each do |post| %>
+      <li>
+        <h3><%= link_to post.title, post_path(post) %></h3>
+        <p><%= post.content.truncate(100) %></p>
+        <div>
+            <strong>Category:</strong>
+            <%= post.category.present? ? post.category.name : 'No category' %>
+          </div>
+          <p>
+            <% if post.image.attached? %>
+                <%= image_tag url_for(post.image) %>
+            <% else %>
+                <p>No Image attached</p>
+            <% end %>
+          </p> 
+          <%= link_to 'Edit', edit_post_path(post, from_profile: true) %>
+          <%= link_to 'Show', post_path(post, from_profile: true) %>
+          <%= button_to 'Delete', post_path(post, from_profile: true), method: :delete %>
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>You haven't posted anything yet.</p>
+<% end %>

@@ -1,0 +1,8 @@
+<div>
+  <%= cache "edit_post_#{@post.id}" do %>
+    <%= form_with model: @post,  local: true do | form | %>
+    <%= hidden_field_tag :from_profile, params[:from_profile] %>
+      <%= render 'form', form: form %>
+    <% end %>
+  <% end %>  
+</div>
